@@ -14,7 +14,7 @@ public class JumpHolder : MonoBehaviour
 
     
     public float chargedPower = 10;
-    public float maxChargePower = 20;
+    public float maxChargePower = 40;
     public float Force = 50f;
 
     public bool canJump = true;
@@ -64,16 +64,23 @@ public class JumpHolder : MonoBehaviour
             isJumping = true;
             animator.SetBool("IsJumping", true);
 
+            if (isFullCharged == false)
+                rb.AddForce(new Vector3(Input.GetAxis("Horizontal") * 0.5f, 0.75f, 0) * chargedPower * Force);
+            else if (isFullCharged == true)
+                rb.AddForce(new Vector3(Input.GetAxis("Horizontal") * 0.3f, 0.90f, 0) * chargedPower * Force);
+
             isFullCharged = false;
             animator.SetBool("IsFullCharged", false);
             animator.SetBool("IsCharging", false);
             canJump = false;
+            
+            chargedPower = 10;
         }
 
-       if (isJumping == true && Input.GetKeyUp(KeyCode.Space) && canJump == false && playerScript.isGrounded == true)
+        if (isJumping == true && playerScript.movement.y == 0)
         {
-            rb.AddForce(new Vector3(Input.GetAxis("Horizontal") * 0.35f, 1, 0) * chargedPower * Force);
-            chargedPower = 10;
+            isJumping = false;
+            playerScript.isGrounded = true;
         }
     }
 }
