@@ -7,6 +7,9 @@ public class JumpHolder : MonoBehaviour
     public Rigidbody2D rb;
     public Animator animator;
     public GameObject myPlayer;
+    public GameObject canvas;
+    public GameObject ProgressBar;
+    ProgressJumpBar barScript;
     Move2D playerScript;
 
     public bool isJumping = false;
@@ -27,6 +30,7 @@ public class JumpHolder : MonoBehaviour
 
     void Update()
     {
+        barScript = ProgressBar.GetComponent<ProgressJumpBar>();
 
         // animation jump is grounding is true or not
         if (playerScript.isGrounded == true)
@@ -47,6 +51,7 @@ public class JumpHolder : MonoBehaviour
 
         if ((Input.GetKey(KeyCode.Space) || Input.GetKeyDown(KeyCode.Space)) && playerScript.isGrounded == true && canJump == true)
         {
+            canvas.SetActive(true);
             animator.SetBool("IsCharging", true);
             chargedPower += Time.deltaTime * 11;
             if (chargedPower >= maxChargePower)
@@ -63,7 +68,6 @@ public class JumpHolder : MonoBehaviour
         {
             isJumping = true;
             animator.SetBool("IsJumping", true);
-
             if (isFullCharged == false)
                 rb.AddForce(new Vector3(Input.GetAxis("Horizontal") * 0.5f, 0.75f, 0) * chargedPower * Force);
             else if (isFullCharged == true)
@@ -73,7 +77,8 @@ public class JumpHolder : MonoBehaviour
             animator.SetBool("IsFullCharged", false);
             animator.SetBool("IsCharging", false);
             canJump = false;
-            
+            canvas.SetActive(false);
+            barScript.slider.value = 0;
             chargedPower = 10;
         }
 

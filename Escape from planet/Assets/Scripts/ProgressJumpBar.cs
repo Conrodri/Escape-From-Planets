@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ProgressJumpBar : MonoBehaviour
 {
-    private Slider slider;
+    public Slider slider;
     public GameObject myPlayer;
     JumpHolder playerScript;
 
