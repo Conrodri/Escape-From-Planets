@@ -29,14 +29,10 @@ public class ProgressJumpBar : MonoBehaviour
     {
         Fillspeed = playerScript.chargedPower;
         if (slider.value < targetProgress && playerScript.isJumping == false && Input.GetKey(KeyCode.Space))
-        {
             slider.value += Fillspeed * Time.deltaTime;
-        }
 
         if (Input.GetKeyUp(KeyCode.Space))
-        {
             slider.value = 0;
-        }
 
     }
     public void IncrementProgress(float newProgress)
