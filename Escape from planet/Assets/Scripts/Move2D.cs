@@ -5,18 +5,16 @@ using UnityEngine;
 
 public class Move2D : MonoBehaviour
 {
-    public LayerMask groundLayer;
+    public LayerMask whatIsGround;
     public Animator animator;
-
+    public Vector2 movement;
+    public Transform feetPos;
+    public bool isGrounded = false;
     public float moveSpeed = 10;
+    public float checkRadius;
 
     private float moveInput;
-
-    public bool isGrounded = false;
-
-    private SpriteRenderer PlayerSpriteRenderer;
-    
-    public Vector2 movement;
+    private SpriteRenderer PlayerSpriteRenderer;  
 
     // Start is called before the first frame update
     void Start()
@@ -32,8 +30,10 @@ public class Move2D : MonoBehaviour
         movement.y = Input.GetAxisRaw("Vertical");
 
         // check if is grounded or not
-        isGrounded = Physics2D.OverlapArea(new Vector2(transform.position.x - 0.13f, transform.position.y - 0.13f),
-           new Vector2(transform.position.x + 0.13f, transform.position.y - 0.13f), groundLayer);
+        // isGrounded = Physics2D.OverlapArea(new Vector2(transform.position.x - 0.13f, transform.position.y - 0.13f),
+        //    new Vector2(transform.position.x + 0.13f, transform.position.y - 0.13f), groundLayer);
+
+        isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
 
         // Move player
         if (isGrounded == true)
@@ -52,12 +52,9 @@ public class Move2D : MonoBehaviour
         PlayerSpriteRenderer = GetComponent<SpriteRenderer>();
         
         if (movement.x < 0)
-        {
             PlayerSpriteRenderer.flipX = true;
-        }
+
         if (movement.x > 0)
-        {
             PlayerSpriteRenderer.flipX = false;
-        }
     }
 }

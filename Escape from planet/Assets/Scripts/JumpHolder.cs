@@ -81,11 +81,5 @@ public class JumpHolder : MonoBehaviour
             barScript.slider.value = 0;
             chargedPower = 10;
         }
-
-        if (isJumping == true && playerScript.movement.y == 0)
-        {
-            isJumping = false;
-            playerScript.isGrounded = true;
-        }
     }
 }
